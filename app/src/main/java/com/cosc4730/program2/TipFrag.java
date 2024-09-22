@@ -38,6 +38,8 @@ public class TipFrag extends Fragment implements View.OnClickListener {
         View view = binding.getRoot();
         String inputField = binding.bill.getText().toString();
         binding.bill.setText(inputField);
+        //enteredBill = Float.parseFloat(inputField);
+        System.out.println(enteredBill);
         binding.calculate.setOnClickListener(this);
         binding.roundBill.setOnClickListener(this);
         binding.roundTip.setOnClickListener(this);
@@ -73,14 +75,20 @@ public class TipFrag extends Fragment implements View.OnClickListener {
         }
         if (view == binding.roundBill) {
             roundBill();
+            binding.roundTip.setEnabled(false);
+            binding.roundTotal.setEnabled(false);
             System.out.println(roundedEnteredBill);
 
         } else if (view == binding.roundTip) {
             roundTip();
+            binding.roundBill.setEnabled(false);
+            binding.roundTotal.setEnabled(false);
             System.out.println(roundedTip);
 
         } else if (view == binding.roundTotal) {
             roundTotal();
+            binding.roundBill.setEnabled(false);
+            binding.roundTip.setEnabled(false);
             System.out.println(roundedTotal);
 
         }
@@ -101,6 +109,7 @@ public class TipFrag extends Fragment implements View.OnClickListener {
 
    public  void roundBill() {
        int rounded;
+       System.out.println(enteredBill);
        rounded = (int) Math.ceil(enteredBill);
        roundedEnteredBill = rounded;
        binding.bill.setText(String.valueOf(roundedEnteredBill));

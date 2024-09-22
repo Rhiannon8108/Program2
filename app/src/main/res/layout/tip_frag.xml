@@ -64,8 +64,8 @@
 
     <TextView
         android:id="@+id/Total"
-        android:layout_width="112dp"
-        android:layout_height="38dp"
+        android:layout_width="143dp"
+        android:layout_height="61dp"
         android:layout_marginTop="176dp"
         android:text="Total"
         android:textSize="18dp"
@@ -78,7 +78,7 @@
         android:layout_width="109dp"
         android:layout_height="29dp"
         android:layout_marginTop="24dp"
-        android:text="TextView"
+        android:text=""
         app:layout_constraintEnd_toStartOf="@+id/calculate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
@@ -100,8 +100,8 @@
 
     <Button
         android:id="@+id/roundTotal"
-        android:layout_width="95dp"
-        android:layout_height="40dp"
+        android:layout_width="101dp"
+        android:layout_height="42dp"
         android:layout_marginTop="16dp"
         android:text="Round+"
         android:textSize="12dp"
