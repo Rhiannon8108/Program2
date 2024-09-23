@@ -21,12 +21,14 @@ public class TipFrag extends Fragment implements View.OnClickListener {
     private TipFragBinding binding;
     private com.cosc4730.program2.TipFrag.TipFragBindingListener listener;
     private int seekBarPercentage;
+    private String inputField;
     private float enteredBill;
     private float totalBill;
     private float tipResult = 0.0f;
     private float roundedEnteredBill;
     private float roundedTip;
     private float roundedTotal;
+    private int roundChoice = 0;
 
     public interface TipFragBindingListener {
     }
@@ -36,12 +38,12 @@ public class TipFrag extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         binding = TipFragBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        String inputField = binding.bill.getText().toString();
+        inputField = "0.00";
         binding.bill.setText(inputField);
-        //enteredBill = Float.parseFloat(inputField);
+        enteredBill = Float.parseFloat(inputField);
         System.out.println(enteredBill);
         binding.calculate.setOnClickListener(this);
-        binding.roundBill.setOnClickListener(this);
+        binding.noRound.setOnClickListener(this);
         binding.roundTip.setOnClickListener(this);
         binding.roundTotal.setOnClickListener(this);
         binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -62,69 +64,93 @@ public class TipFrag extends Fragment implements View.OnClickListener {
             }
         });
 
-      //  binding.button01.setOnClickListener(this);
-
         return binding.getRoot();
     }
 
     public void onClick(View view) {
         if (view == binding.calculate) {
             calculateBill();
-            System.out.println("Button clicked01");
 
         }
-        if (view == binding.roundBill) {
-            roundBill();
-            binding.roundTip.setEnabled(false);
-            binding.roundTotal.setEnabled(false);
+        if (view == binding.noRound) {
+            noRoundBill();
+            binding.noRound.setEnabled(false);
+            binding.roundTip.setEnabled(true);
+            binding.roundTotal.setEnabled(true);
+            calculateBill();
             System.out.println(roundedEnteredBill);
 
         } else if (view == binding.roundTip) {
             roundTip();
-            binding.roundBill.setEnabled(false);
-            binding.roundTotal.setEnabled(false);
+            binding.noRound.setEnabled(true);
+            binding.roundTip.setEnabled(false);
+            binding.roundTotal.setEnabled(true);
+            calculateBill();
             System.out.println(roundedTip);
 
         } else if (view == binding.roundTotal) {
             roundTotal();
-            binding.roundBill.setEnabled(false);
-            binding.roundTip.setEnabled(false);
+            binding.noRound.setEnabled(true);
+            binding.roundTip.setEnabled(true);
+            binding.roundTotal.setEnabled(false);
+            calculateBill();
             System.out.println(roundedTotal);
-
         }
     }
 
     public void calculateBill(){
-        if (!binding.bill.getText().toString().isEmpty()){
+        if (roundChoice == 0){
             enteredBill = Float.parseFloat(binding.bill.getText().toString());
             tipResult = enteredBill * seekBarPercentage/ 100;
             binding.tipAmount.setText(" Tip $" + String.valueOf(tipResult));
             totalBill = enteredBill + tipResult;
+            System.out.println(tipResult);
+            System.out.println(roundChoice);
             binding.Total.setText(" Total $" +(totalBill));
-        }else {
-          binding.bill.setText("0");
+
+        }else if(roundChoice == 1) {
+            enteredBill = Float.parseFloat(binding.bill.getText().toString());
+            binding.tipAmount.setText(" Tip $" + String.valueOf(roundedTip));
+            System.out.println(roundedTip);
+            totalBill = enteredBill + roundedTip;
+            System.out.println(roundedTip);
+            binding.Total.setText(" Total $" +(totalBill));
+            System.out.println(roundChoice);
+
+        }else if(roundChoice == 2){
+            totalBill = roundedTotal;
+            binding.Total.setText(" Total $" +(totalBill));
+            System.out.println(roundChoice);
+
         }
-
     }
+   public  void noRoundBill() {
+        roundChoice = 0;
+       binding.tipAmount.setText(" Tip $" + String.valueOf(tipResult));
+       totalBill = enteredBill + tipResult;
+       binding.Total.setText(" Total $" +(totalBill));
 
-   public  void roundBill() {
-       int rounded;
-       System.out.println(enteredBill);
-       rounded = (int) Math.ceil(enteredBill);
-       roundedEnteredBill = rounded;
-       binding.bill.setText(String.valueOf(roundedEnteredBill));
    }
    public void roundTip(){
        int rounded;
        rounded = (int) Math.ceil(tipResult);
-       roundedTip =rounded;
+       roundedTip = rounded;
        binding.tipAmount.setText(String.valueOf(roundedTip));
+       roundChoice = 1;
+       System.out.println(roundChoice);
    }
 
    public void roundTotal(){
        int rounded;
        rounded = (int) Math.ceil(totalBill);
        roundedTotal = rounded;
+       System.out.println(roundedTotal);
+       tipResult = enteredBill * seekBarPercentage/ 100;
+       binding.tipAmount.setText(" Tip $" + String.valueOf(tipResult));
        binding.Total.setText(String.valueOf(roundedTotal));
+       roundChoice = 2;
+       System.out.println(roundChoice);
+
    }
+
 }

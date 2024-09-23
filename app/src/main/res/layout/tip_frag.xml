@@ -84,13 +84,13 @@
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
     <Button
-        android:id="@+id/roundBill"
+        android:id="@+id/noRound"
         android:layout_width="95dp"
         android:layout_height="40dp"
         android:layout_marginTop="22dp"
         android:layout_marginEnd="52dp"
         android:layout_marginBottom="68dp"
-        android:text="Round+"
+        android:text="no round"
         android:textSize="12dp"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
